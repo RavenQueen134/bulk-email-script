@@ -1,0 +1,6 @@
+.env
+email_body.txt
+recipients.csv
+send_log.csv
+__pycache__/
+*.pyc
