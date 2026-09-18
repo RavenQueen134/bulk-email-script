@@ -19,6 +19,9 @@ This script requires a `recipients.csv` file with column `email`. Each line will
 A template file `email_body.txt.example` has been included. Rename this to `email_body.txt` and edit the contents to whatever it is you want your email to say!
 
 ## Usage
+### Linux/MacOS
+`python3 bulk_email_script.py`
+### Windows
 `python bulk_email_script.py`
 
 ## Note
