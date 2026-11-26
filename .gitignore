@@ -4,3 +4,4 @@ recipients.csv
 send_log.csv
 __pycache__/
 *.pyc
+attachments/*

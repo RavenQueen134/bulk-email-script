@@ -1,10 +1,10 @@
 # bulk-email-script.py
-# by Corvidae Luz Dulcey Nguyen
-# version 1.0
+# by Corvidae Luz Dulcey Opina Nguyen
 
 from dotenv import load_dotenv
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+from email.mime.application import MIMEApplication
 
 import csv
 import os
@@ -17,11 +17,12 @@ SMTP_SERVER   = "smtp.gmail.com"
 SMTP_PORT     = 587     # STARTTLS PORT
 
 # Delay config
-DELAY_SECONDS = 2       # pause between sends
+DELAY_SECONDS = 5       # pause between sends
 
 # Fetch email details
 EMAIL_BODY_TXT = "email_body.txt"   # First line = subject, then blank line, then body
-RECIPIENTS_CSV = "recipients.csv"   # Columns: email    
+RECIPIENTS_CSV = "recipients.csv"   # Columns: email
+ATTACHMENT_DIR = "attachments"      # Directory containing file attachments
 
 
 load_dotenv()
@@ -57,6 +58,17 @@ def build_message(sender, to, subject, body):
     msg["To"] = to
     msg["Subject"] = subject
     msg.attach(MIMEText(body, "plain"))
+
+    # Below is for attaching files
+    for a in os.scandir(ATTACHMENT_DIR):
+        # Below code is from https://stackoverflow.com/a/3363254
+        with open(a.path, "rb") as f:
+            att = MIMEApplication(
+                f.read(),
+                Name=os.path.basename(a)
+            )
+        att['Content-Disposition'] = 'attachment; filename="%s"' % os.path.basename(a)
+        msg.attach(att)
 
     return msg
 
